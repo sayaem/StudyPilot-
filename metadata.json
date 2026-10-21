@@ -1,0 +1,6 @@
+{
+  "name": "StudyPilot",
+  "description": "Premium student productivity app with study planner, smart syllabus tracking, focus timer, app blocker, mock tests, and notes library.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
