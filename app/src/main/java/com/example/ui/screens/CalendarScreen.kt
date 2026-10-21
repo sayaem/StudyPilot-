@@ -58,7 +58,7 @@ fun CalendarScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             // Month Header
             item {
@@ -72,6 +72,7 @@ fun CalendarScreen(
                     Text(
                         text = "October 2025",
                         fontSize = 17.sp,
+                        fontFamily = PlusJakartaSansFamily,
                         fontWeight = FontWeight.Bold,
                         color = StudyPilotTextDark
                     )
@@ -96,13 +97,13 @@ fun CalendarScreen(
                     border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(StudyPilotBorder))
                 ) {
                     Column(modifier = Modifier.padding(14.dp)) {
-                        // Weekday headers: Sun Mon Tue Wed Thu Fri Sat
                         val daysOfWeek = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
                         Row(modifier = Modifier.fillMaxWidth()) {
                             daysOfWeek.forEach { dayName ->
                                 Text(
                                     text = dayName,
                                     fontSize = 11.sp,
+                                    fontFamily = PlusJakartaSansFamily,
                                     fontWeight = FontWeight.SemiBold,
                                     color = StudyPilotTextSubtle,
                                     modifier = Modifier.weight(1f),
@@ -115,7 +116,7 @@ fun CalendarScreen(
 
                         // October 2025 starts on Wednesday (offset 3)
                         val totalDays = 31
-                        val startOffset = 3 // Sun=0, Mon=1, Tue=2, Wed=3
+                        val startOffset = 3
                         val totalCells = totalDays + startOffset
                         val numRows = (totalCells + 6) / 7
 
@@ -143,6 +144,7 @@ fun CalendarScreen(
                                             Text(
                                                 text = "$dayNum",
                                                 fontSize = 12.sp,
+                                                fontFamily = PlusJakartaSansFamily,
                                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                                                 color = if (isSelected) Color.White else StudyPilotTextDark
                                             )
@@ -162,6 +164,7 @@ fun CalendarScreen(
                 Text(
                     text = "${AppStrings.get("today", lang)}, $selectedDay Oct",
                     fontSize = 15.sp,
+                    fontFamily = PlusJakartaSansFamily,
                     fontWeight = FontWeight.Bold,
                     color = StudyPilotTextDark
                 )
@@ -189,7 +192,7 @@ fun CalendarScreen(
                         Surface(
                             modifier = Modifier.size(36.dp),
                             shape = CircleShape,
-                            color = subjectColor.copy(alpha = 0.15f)
+                            color = subjectColor.copy(alpha = 0.12f)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
                                 Icon(
@@ -206,6 +209,7 @@ fun CalendarScreen(
                         Text(
                             text = session.subjectName,
                             fontSize = 14.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             fontWeight = FontWeight.Bold,
                             color = StudyPilotTextDark,
                             modifier = Modifier.weight(1f)
@@ -214,6 +218,7 @@ fun CalendarScreen(
                         Text(
                             text = session.timeRange,
                             fontSize = 12.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             color = StudyPilotTextMuted
                         )
                     }

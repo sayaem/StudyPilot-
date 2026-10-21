@@ -1,6 +1,7 @@
 package com.example.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,7 +35,6 @@ fun PlannerScreen(
     onNavigateCalendar: () -> Unit
 ) {
     var selectedTab by remember { mutableStateOf("Today") }
-    var showAddDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         containerColor = StudyPilotBg,
@@ -50,7 +50,8 @@ fun PlannerScreen(
                         Icon(
                             imageVector = Icons.Outlined.CalendarToday,
                             contentDescription = "Calendar",
-                            tint = StudyPilotPrimary
+                            tint = StudyPilotPrimary,
+                            modifier = Modifier.size(22.dp)
                         )
                     }
                 }
@@ -58,15 +59,15 @@ fun PlannerScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { showAddDialog = true },
+                onClick = {},
                 containerColor = StudyPilotPrimary,
                 contentColor = Color.White,
                 shape = CircleShape,
                 modifier = Modifier
-                    .padding(bottom = 16.dp)
+                    .padding(bottom = 16.dp, end = 4.dp)
                     .testTag("planner_add_session_fab")
             ) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "Add Session")
+                Icon(imageVector = Icons.Filled.Add, contentDescription = "Add Session", modifier = Modifier.size(24.dp))
             }
         }
     ) { innerPadding ->
@@ -75,14 +76,14 @@ fun PlannerScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             // View Filters (Today, Week, Month)
             item {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 12.dp),
+                        .padding(vertical = 10.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     listOf("Today", "Week", "Month").forEach { tab ->
@@ -106,6 +107,7 @@ fun PlannerScreen(
                                 Text(
                                     text = localizedTab,
                                     fontSize = 13.sp,
+                                    fontFamily = PlusJakartaSansFamily,
                                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                                     color = if (isSelected) Color.White else StudyPilotTextMuted
                                 )
@@ -115,18 +117,19 @@ fun PlannerScreen(
                 }
             }
 
-            // Date Navigation Header
+            // Date Navigation Header: "Mon, 20 Oct 2025" with left/right arrows
             item {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                        .padding(vertical = 6.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = "Mon, 20 Oct 2025",
                         fontSize = 15.sp,
+                        fontFamily = PlusJakartaSansFamily,
                         fontWeight = FontWeight.Bold,
                         color = StudyPilotTextDark
                     )
@@ -144,7 +147,6 @@ fun PlannerScreen(
 
             // Session Cards
             items(sessions) { session ->
-                val cardColor = Color.White
                 val subjectColor = try {
                     Color(android.graphics.Color.parseColor(session.colorHex))
                 } catch (e: Exception) {
@@ -157,13 +159,13 @@ fun PlannerScreen(
                         .clickable { onToggleSession(session.id) }
                         .testTag("session_item_${session.id}"),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = cardColor),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
                     border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(StudyPilotBorder))
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(14.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         // Colored Circle Icon
@@ -188,6 +190,7 @@ fun PlannerScreen(
                             Text(
                                 text = session.timeRange,
                                 fontSize = 11.sp,
+                                fontFamily = PlusJakartaSansFamily,
                                 fontWeight = FontWeight.Medium,
                                 color = StudyPilotTextSubtle
                             )
@@ -195,6 +198,7 @@ fun PlannerScreen(
                             Text(
                                 text = session.subjectName,
                                 fontSize = 15.sp,
+                                fontFamily = PlusJakartaSansFamily,
                                 fontWeight = FontWeight.Bold,
                                 color = StudyPilotTextDark
                             )
@@ -202,11 +206,12 @@ fun PlannerScreen(
                             Text(
                                 text = session.chapterTitle,
                                 fontSize = 12.sp,
+                                fontFamily = PlusJakartaSansFamily,
                                 color = StudyPilotTextMuted
                             )
                         }
 
-                        // Completion indicator
+                        // Completion Indicator Circle
                         IconButton(
                             onClick = { onToggleSession(session.id) },
                             modifier = Modifier.size(32.dp)
@@ -214,7 +219,7 @@ fun PlannerScreen(
                             if (session.isCompleted) {
                                 Box(
                                     modifier = Modifier
-                                        .size(26.dp)
+                                        .size(24.dp)
                                         .clip(CircleShape)
                                         .background(StudyPilotPrimary),
                                     contentAlignment = Alignment.Center
@@ -223,25 +228,17 @@ fun PlannerScreen(
                                         imageVector = Icons.Filled.Check,
                                         contentDescription = "Completed",
                                         tint = Color.White,
-                                        modifier = Modifier.size(16.dp)
+                                        modifier = Modifier.size(15.dp)
                                     )
                                 }
                             } else {
                                 Box(
                                     modifier = Modifier
-                                        .size(26.dp)
+                                        .size(24.dp)
                                         .clip(CircleShape)
                                         .background(Color.White)
-                                        .clip(CircleShape),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Surface(
-                                        modifier = Modifier.size(24.dp),
-                                        shape = CircleShape,
-                                        color = Color.Transparent,
-                                        border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(Color(0xFFCBD5E1)))
-                                    ) {}
-                                }
+                                        .border(1.5.dp, Color(0xFFCBD5E1), CircleShape)
+                                )
                             }
                         }
                     }

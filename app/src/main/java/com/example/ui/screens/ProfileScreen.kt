@@ -66,13 +66,13 @@ fun ProfileScreen(
                 .padding(innerPadding)
                 .padding(horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             // Profile Header
             item {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(top = 10.dp)
+                    modifier = Modifier.padding(top = 8.dp)
                 ) {
                     Box(
                         modifier = Modifier
@@ -92,6 +92,7 @@ fun ProfileScreen(
                     Text(
                         text = profile.fullName,
                         fontSize = 18.sp,
+                        fontFamily = PlusJakartaSansFamily,
                         fontWeight = FontWeight.Bold,
                         color = StudyPilotTextDark
                     )
@@ -101,6 +102,7 @@ fun ProfileScreen(
                     Text(
                         text = profile.email,
                         fontSize = 12.sp,
+                        fontFamily = PlusJakartaSansFamily,
                         color = StudyPilotTextMuted
                     )
 
@@ -113,6 +115,7 @@ fun ProfileScreen(
                         Text(
                             text = profile.roleBadge,
                             fontSize = 11.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             fontWeight = FontWeight.Bold,
                             color = StudyPilotPrimary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
@@ -149,6 +152,7 @@ fun ProfileScreen(
                                 Text(
                                     text = value,
                                     fontSize = 18.sp,
+                                    fontFamily = PlusJakartaSansFamily,
                                     fontWeight = FontWeight.ExtraBold,
                                     color = color
                                 )
@@ -156,6 +160,7 @@ fun ProfileScreen(
                                 Text(
                                     text = label,
                                     fontSize = 11.sp,
+                                    fontFamily = PlusJakartaSansFamily,
                                     color = StudyPilotTextMuted
                                 )
                             }
@@ -242,6 +247,7 @@ fun ProfileMenuItem(
         Text(
             text = title,
             fontSize = 14.sp,
+            fontFamily = PlusJakartaSansFamily,
             fontWeight = FontWeight.Medium,
             color = StudyPilotTextDark,
             modifier = Modifier.weight(1f)
@@ -250,6 +256,7 @@ fun ProfileMenuItem(
             Text(
                 text = trailingText,
                 fontSize = 12.sp,
+                fontFamily = PlusJakartaSansFamily,
                 color = StudyPilotTextMuted
             )
             Spacer(modifier = Modifier.width(6.dp))

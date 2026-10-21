@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ui.theme.*
@@ -41,7 +40,7 @@ fun StudyPilotTopBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (onBack != null) {
@@ -54,7 +53,8 @@ fun StudyPilotTopBar(
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
-                    tint = StudyPilotTextDark
+                    tint = StudyPilotTextDark,
+                    modifier = Modifier.size(22.dp)
                 )
             }
         } else {
@@ -63,9 +63,10 @@ fun StudyPilotTopBar(
 
         Text(
             text = title,
-            style = MaterialTheme.typography.titleLarge,
-            color = StudyPilotTextDark,
+            fontSize = 18.sp,
+            fontFamily = PlusJakartaSansFamily,
             fontWeight = FontWeight.Bold,
+            color = StudyPilotTextDark,
             modifier = Modifier.weight(1f)
         )
 
@@ -82,13 +83,14 @@ fun StudyPilotBottomBar(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(elevation = 8.dp, spotColor = Color(0x1A000000)),
+            .shadow(elevation = 8.dp, spotColor = Color(0x14000000)),
         color = Color.White
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .navigationBarsPadding()
+                .padding(vertical = 6.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -107,20 +109,21 @@ fun StudyPilotBottomBar(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .clickable { onNavigate(route) }
-                        .padding(horizontal = 12.dp, vertical = 4.dp)
+                        .padding(horizontal = 10.dp, vertical = 4.dp)
                         .testTag("bottom_nav_$route")
                 ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = label,
                         tint = tint,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(22.dp)
                     )
                     Spacer(modifier = Modifier.height(3.dp))
                     Text(
                         text = label,
                         fontSize = 11.sp,
-                        fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
+                        fontFamily = PlusJakartaSansFamily,
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                         color = tint
                     )
                 }
@@ -138,21 +141,22 @@ fun CircularProgressCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 8.dp),
-        shape = RoundedCornerShape(20.dp),
+            .padding(horizontal = 20.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = CardDefaults.outlinedCardBorder().copy(brush = Brush.linearGradient(listOf(StudyPilotBorder, StudyPilotBorder)))
+        border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(StudyPilotBorder))
     ) {
         Column(
-            modifier = Modifier.padding(20.dp)
+            modifier = Modifier.padding(18.dp)
         ) {
             Text(
                 text = AppStrings.get("today_progress", lang),
-                style = MaterialTheme.typography.titleMedium,
+                fontSize = 15.sp,
+                fontFamily = PlusJakartaSansFamily,
                 fontWeight = FontWeight.Bold,
                 color = StudyPilotTextDark
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -160,14 +164,14 @@ fun CircularProgressCard(
             ) {
                 // Circular Ring Indicator
                 Box(
-                    modifier = Modifier.size(105.dp),
+                    modifier = Modifier.size(95.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     val progress = (currentHours / targetHours).coerceIn(0f, 1f)
                     val animatedProgress by animateFloatAsState(targetValue = progress, label = "progress")
 
-                    Canvas(modifier = Modifier.size(95.dp)) {
-                        val strokeWidth = 9.dp.toPx()
+                    Canvas(modifier = Modifier.size(86.dp)) {
+                        val strokeWidth = 8.dp.toPx()
                         // Background track
                         drawCircle(
                             color = Color(0xFFF1F5F9),
@@ -188,28 +192,30 @@ fun CircularProgressCard(
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
                             text = "${currentHours.toInt()}/${targetHours.toInt()}",
-                            fontSize = 18.sp,
+                            fontSize = 17.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             fontWeight = FontWeight.Bold,
                             color = StudyPilotTextDark
                         )
                         Text(
                             text = AppStrings.get("hours", lang),
                             fontSize = 11.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             color = StudyPilotTextMuted
                         )
                     }
                 }
 
-                Spacer(modifier = Modifier.width(24.dp))
+                Spacer(modifier = Modifier.width(22.dp))
 
                 Column(
                     modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier = Modifier
-                                .size(10.dp)
+                                .size(9.dp)
                                 .clip(CircleShape)
                                 .background(StudyPilotGreen)
                         )
@@ -217,12 +223,14 @@ fun CircularProgressCard(
                         Column {
                             Text(
                                 text = AppStrings.get("completed", lang),
-                                fontSize = 12.sp,
+                                fontSize = 11.sp,
+                                fontFamily = PlusJakartaSansFamily,
                                 color = StudyPilotTextMuted
                             )
                             Text(
                                 text = "${currentHours.toInt()}h 0m",
                                 fontSize = 15.sp,
+                                fontFamily = PlusJakartaSansFamily,
                                 fontWeight = FontWeight.Bold,
                                 color = StudyPilotTextDark
                             )
@@ -232,7 +240,7 @@ fun CircularProgressCard(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier = Modifier
-                                .size(10.dp)
+                                .size(9.dp)
                                 .clip(CircleShape)
                                 .background(StudyPilotCyan)
                         )
@@ -240,12 +248,14 @@ fun CircularProgressCard(
                         Column {
                             Text(
                                 text = AppStrings.get("target", lang),
-                                fontSize = 12.sp,
+                                fontSize = 11.sp,
+                                fontFamily = PlusJakartaSansFamily,
                                 color = StudyPilotTextMuted
                             )
                             Text(
                                 text = "${targetHours.toInt()}h 0m",
                                 fontSize = 15.sp,
+                                fontFamily = PlusJakartaSansFamily,
                                 fontWeight = FontWeight.Bold,
                                 color = StudyPilotTextDark
                             )
@@ -275,7 +285,7 @@ fun QuickActionButton(
             modifier = Modifier.size(62.dp),
             shape = RoundedCornerShape(16.dp),
             color = bgColor,
-            border = CardDefaults.outlinedCardBorder().copy(brush = Brush.linearGradient(listOf(StudyPilotBorder, StudyPilotBorder)))
+            border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(StudyPilotBorder))
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Icon(
@@ -290,6 +300,7 @@ fun QuickActionButton(
         Text(
             text = label,
             fontSize = 12.sp,
+            fontFamily = PlusJakartaSansFamily,
             fontWeight = FontWeight.Medium,
             color = StudyPilotTextDark,
             textAlign = TextAlign.Center

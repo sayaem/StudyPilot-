@@ -63,8 +63,8 @@ fun SubjectsScreen(
             LazyColumn(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(14.dp)
+                    .padding(vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(subjects) { subject ->
                     val subjectColor = try {
@@ -91,18 +91,17 @@ fun SubjectsScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                // Subject icon in colored rounded box
                                 Surface(
-                                    modifier = Modifier.size(46.dp),
+                                    modifier = Modifier.size(44.dp),
                                     shape = RoundedCornerShape(12.dp),
-                                    color = subjectColor.copy(alpha = 0.15f)
+                                    color = subjectColor.copy(alpha = 0.12f)
                                 ) {
                                     Box(contentAlignment = Alignment.Center) {
                                         Icon(
                                             imageVector = Icons.Outlined.Book,
                                             contentDescription = subject.name,
                                             tint = subjectColor,
-                                            modifier = Modifier.size(24.dp)
+                                            modifier = Modifier.size(22.dp)
                                         )
                                     }
                                 }
@@ -113,6 +112,7 @@ fun SubjectsScreen(
                                     Text(
                                         text = subject.name,
                                         fontSize = 15.sp,
+                                        fontFamily = PlusJakartaSansFamily,
                                         fontWeight = FontWeight.Bold,
                                         color = StudyPilotTextDark
                                     )
@@ -120,6 +120,7 @@ fun SubjectsScreen(
                                     Text(
                                         text = "${subject.completedChapters}/${subject.totalChapters} ${AppStrings.get("chapters", lang)}",
                                         fontSize = 12.sp,
+                                        fontFamily = PlusJakartaSansFamily,
                                         color = StudyPilotTextMuted
                                     )
                                 }
@@ -127,6 +128,7 @@ fun SubjectsScreen(
                                 Text(
                                     text = "${subject.progressPercent}%",
                                     fontSize = 14.sp,
+                                    fontFamily = PlusJakartaSansFamily,
                                     fontWeight = FontWeight.Bold,
                                     color = StudyPilotTextDark
                                 )
@@ -134,7 +136,6 @@ fun SubjectsScreen(
 
                             Spacer(modifier = Modifier.height(12.dp))
 
-                            // Subtle progress bar
                             LinearProgressIndicator(
                                 progress = { (subject.progressPercent / 100f).coerceIn(0f, 1f) },
                                 modifier = Modifier
@@ -149,15 +150,15 @@ fun SubjectsScreen(
                 }
             }
 
-            // Bottom "+ Add Subject" Outlined Action Button
+            // Bottom "+ Add Subject" Action Button
             OutlinedButton(
                 onClick = onAddSubject,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
-                    .padding(bottom = 8.dp)
+                    .height(48.dp)
+                    .padding(bottom = 6.dp)
                     .testTag("subjects_add_subject_bottom_btn"),
-                shape = RoundedCornerShape(25.dp),
+                shape = RoundedCornerShape(24.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
                     containerColor = Color.White,
                     contentColor = StudyPilotPrimary
@@ -168,12 +169,13 @@ fun SubjectsScreen(
             ) {
                 Text(
                     text = AppStrings.get("add_subject", lang),
-                    fontSize = 15.sp,
+                    fontSize = 14.sp,
+                    fontFamily = PlusJakartaSansFamily,
                     fontWeight = FontWeight.Bold,
                     color = StudyPilotPrimary
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(14.dp))
         }
     }
 }

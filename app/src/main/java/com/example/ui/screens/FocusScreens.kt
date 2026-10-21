@@ -24,7 +24,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.R
@@ -50,11 +49,11 @@ fun FocusModeIdleScreen(
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Top Bar & Title
+            // Top Bar
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onBack, modifier = Modifier.size(36.dp)) {
@@ -64,18 +63,20 @@ fun FocusModeIdleScreen(
 
             Text(
                 text = AppStrings.get("focus_mode", lang),
-                fontSize = 20.sp,
+                fontSize = 22.sp,
+                fontFamily = PlusJakartaSansFamily,
                 fontWeight = FontWeight.Bold,
                 color = StudyPilotTextDark
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = AppStrings.get("focus_subtitle", lang),
-                fontSize = 12.sp,
+                fontSize = 13.sp,
+                fontFamily = PlusJakartaSansFamily,
                 color = StudyPilotTextMuted
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             // Illustrated Mountain Landscape with Circular Timer overlay
             Box(
@@ -84,23 +85,53 @@ fun FocusModeIdleScreen(
                     .weight(1f),
                 contentAlignment = Alignment.Center
             ) {
-                // Mountain Landscape Art
-                Image(
-                    painter = painterResource(id = R.drawable.ill_focus_mountains),
-                    contentDescription = "Focus Mountain Landscape",
+                // High-Resolution Mountain, Golden Sunrise & Pine Forest Landscape
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(240.dp)
-                        .align(Alignment.TopCenter),
-                    contentScale = ContentScale.FillWidth
-                )
+                        .height(260.dp)
+                        .align(Alignment.TopCenter)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_focus_landscape),
+                        contentDescription = "Scenic Focus Mountains",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
 
-                // Large Circular Timer Card
+                    // Atmospheric top sky blend
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(60.dp)
+                            .align(Alignment.TopCenter)
+                            .background(
+                                Brush.verticalGradient(
+                                    listOf(StudyPilotBg, StudyPilotBg.copy(alpha = 0.5f), Color.Transparent)
+                                )
+                            )
+                    )
+
+                    // Soft bottom feathered blend to naturally transition forest & water
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(90.dp)
+                            .align(Alignment.BottomCenter)
+                            .background(
+                                Brush.verticalGradient(
+                                    listOf(Color.Transparent, StudyPilotBg.copy(alpha = 0.6f), StudyPilotBg)
+                                )
+                            )
+                    )
+                }
+
+                // Refined Large Circular Timer Card overlapping the landscape
                 Surface(
                     modifier = Modifier
-                        .size(200.dp)
+                        .size(215.dp)
                         .align(Alignment.Center)
-                        .shadow(16.dp, CircleShape, spotColor = Color(0x262563EB)),
+                        .shadow(16.dp, CircleShape, spotColor = Color(0x181E3A8A)),
                     shape = CircleShape,
                     color = Color.White,
                     border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(StudyPilotBorder))
@@ -108,21 +139,29 @@ fun FocusModeIdleScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(8.dp)
-                            .border(6.dp, StudyPilotCyanBg, CircleShape),
+                            .padding(12.dp)
+                            .border(
+                                6.dp,
+                                Brush.sweepGradient(listOf(Color(0xFFE0F2FE), Color(0xFFBAE6FD), Color(0xFFE0F2FE))),
+                                CircleShape
+                            ),
                         contentAlignment = Alignment.Center
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
                                 text = "25:00",
-                                fontSize = 32.sp,
+                                fontSize = 36.sp,
+                                fontFamily = PlusJakartaSansFamily,
                                 fontWeight = FontWeight.ExtraBold,
-                                color = StudyPilotTextDark
+                                color = StudyPilotTextDark,
+                                letterSpacing = (-0.5).sp
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = AppStrings.get("focus_session", lang),
-                                fontSize = 12.sp,
+                                fontSize = 13.sp,
+                                fontFamily = PlusJakartaSansFamily,
+                                fontWeight = FontWeight.Medium,
                                 color = StudyPilotTextMuted
                             )
                         }
@@ -130,7 +169,7 @@ fun FocusModeIdleScreen(
                 }
             }
 
-            // Start Button
+            // Start Focus Button matching reference
             Button(
                 onClick = onStartFocus,
                 modifier = Modifier
@@ -139,23 +178,25 @@ fun FocusModeIdleScreen(
                     .height(50.dp)
                     .testTag("start_focus_button"),
                 shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = StudyPilotPrimary)
+                colors = ButtonDefaults.buttonColors(containerColor = StudyPilotPrimary),
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp)
             ) {
                 Text(
-                    text = AppStrings.get("start", lang),
-                    fontSize = 16.sp,
+                    text = "Start Focus",
+                    fontSize = 15.sp,
+                    fontFamily = PlusJakartaSansFamily,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             // Bottom Quick Options: Custom, Apps Blocker, Settings
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 32.dp, vertical = 12.dp),
+                    .padding(horizontal = 32.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Column(
@@ -169,7 +210,12 @@ fun FocusModeIdleScreen(
                         modifier = Modifier.size(24.dp)
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = AppStrings.get("custom", lang), fontSize = 11.sp, color = StudyPilotTextMuted)
+                    Text(
+                        text = AppStrings.get("custom", lang),
+                        fontSize = 11.sp,
+                        fontFamily = PlusJakartaSansFamily,
+                        color = StudyPilotTextMuted
+                    )
                 }
 
                 Column(
@@ -185,7 +231,12 @@ fun FocusModeIdleScreen(
                         modifier = Modifier.size(24.dp)
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = AppStrings.get("apps_blocker", lang), fontSize = 11.sp, color = StudyPilotTextMuted)
+                    Text(
+                        text = AppStrings.get("apps_blocker", lang),
+                        fontSize = 11.sp,
+                        fontFamily = PlusJakartaSansFamily,
+                        color = StudyPilotTextMuted
+                    )
                 }
 
                 Column(
@@ -199,11 +250,16 @@ fun FocusModeIdleScreen(
                         modifier = Modifier.size(24.dp)
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = AppStrings.get("settings", lang), fontSize = 11.sp, color = StudyPilotTextMuted)
+                    Text(
+                        text = AppStrings.get("settings", lang),
+                        fontSize = 11.sp,
+                        fontFamily = PlusJakartaSansFamily,
+                        color = StudyPilotTextMuted
+                    )
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
@@ -235,7 +291,7 @@ fun FocusRunningScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                    .padding(vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onEndSession) {
@@ -246,6 +302,7 @@ fun FocusRunningScreen(
             Text(
                 text = AppStrings.get("focus_time", lang),
                 fontSize = 18.sp,
+                fontFamily = PlusJakartaSansFamily,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
@@ -253,17 +310,18 @@ fun FocusRunningScreen(
             Text(
                 text = AppStrings.get("keep_going", lang),
                 fontSize = 13.sp,
+                fontFamily = PlusJakartaSansFamily,
                 color = StudyPilotCyan,
                 fontWeight = FontWeight.SemiBold
             )
 
-            Spacer(modifier = Modifier.weight(0.6f))
+            Spacer(modifier = Modifier.weight(0.5f))
 
             // Large Glowing Dark Circular Timer
             Surface(
                 modifier = Modifier
                     .size(240.dp)
-                    .shadow(24.dp, CircleShape, spotColor = StudyPilotCyan.copy(alpha = 0.5f)),
+                    .shadow(24.dp, CircleShape, spotColor = StudyPilotCyan.copy(alpha = 0.4f)),
                 shape = CircleShape,
                 color = FocusDarkSurface,
                 border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(FocusDarkBorder))
@@ -283,12 +341,12 @@ fun FocusRunningScreen(
                         Text(
                             text = formattedTime,
                             fontSize = 38.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             fontWeight = FontWeight.Bold,
                             color = Color.White,
                             letterSpacing = 1.sp
                         )
                         Spacer(modifier = Modifier.height(16.dp))
-                        // Pause / Resume Button
                         IconButton(
                             onClick = onPauseResume,
                             modifier = Modifier
@@ -308,7 +366,7 @@ fun FocusRunningScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.weight(0.8f))
+            Spacer(modifier = Modifier.weight(0.7f))
 
             // Session Stats Row: This Session / Today
             Row(
@@ -328,12 +386,14 @@ fun FocusRunningScreen(
                         Text(
                             text = AppStrings.get("this_session", lang),
                             fontSize = 11.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             color = Color.White.copy(alpha = 0.6f)
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "0h 27m",
                             fontSize = 16.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
@@ -353,12 +413,14 @@ fun FocusRunningScreen(
                         Text(
                             text = AppStrings.get("today", lang),
                             fontSize = 11.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             color = Color.White.copy(alpha = 0.6f)
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "2h 15m",
                             fontSize = 16.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
@@ -405,11 +467,13 @@ fun FocusRunningScreen(
                         Text(
                             text = AppStrings.get("blocked_apps", lang),
                             fontSize = 11.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             color = Color.White.copy(alpha = 0.6f)
                         )
                         Text(
                             text = "12 ${AppStrings.get("apps_blocked", lang)}",
                             fontSize = 13.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
@@ -423,7 +487,7 @@ fun FocusRunningScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(28.dp))
         }
     }
 }
@@ -453,9 +517,8 @@ fun AppsBlockerScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            // Enable App Blocking Switch Card
             item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -473,6 +536,7 @@ fun AppsBlockerScreen(
                         Text(
                             text = AppStrings.get("enable_app_blocking", lang),
                             fontSize = 15.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             fontWeight = FontWeight.Bold,
                             color = StudyPilotTextDark
                         )
@@ -489,11 +553,11 @@ fun AppsBlockerScreen(
                 }
             }
 
-            // Blocked Apps List Section
             item {
                 Text(
                     text = AppStrings.get("blocked_apps", lang),
                     fontSize = 13.sp,
+                    fontFamily = PlusJakartaSansFamily,
                     fontWeight = FontWeight.Bold,
                     color = StudyPilotTextMuted
                 )
@@ -532,6 +596,7 @@ fun AppsBlockerScreen(
                         Text(
                             text = app.name,
                             fontSize = 14.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             fontWeight = FontWeight.SemiBold,
                             color = StudyPilotTextDark,
                             modifier = Modifier.weight(1f)
@@ -550,12 +615,12 @@ fun AppsBlockerScreen(
                 }
             }
 
-            // Block During Radio Options
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
                         text = AppStrings.get("block_during", lang),
                         fontSize = 13.sp,
+                        fontFamily = PlusJakartaSansFamily,
                         fontWeight = FontWeight.Bold,
                         color = StudyPilotTextMuted
                     )
@@ -581,6 +646,7 @@ fun AppsBlockerScreen(
                                 Text(
                                     text = if (timing == "Focus Session") AppStrings.get("focus_session", lang) else AppStrings.get("custom", lang),
                                     fontSize = 13.sp,
+                                    fontFamily = PlusJakartaSansFamily,
                                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                                     color = StudyPilotTextDark
                                 )
@@ -591,7 +657,6 @@ fun AppsBlockerScreen(
             }
 
             item {
-                // Accessibility Service Info note
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
@@ -611,12 +676,13 @@ fun AppsBlockerScreen(
                         Text(
                             text = "Apps Blocker works during active Focus sessions to prevent distracting apps from interrupting your study routine.",
                             fontSize = 12.sp,
+                            fontFamily = PlusJakartaSansFamily,
                             color = StudyPilotTextBody,
                             lineHeight = 16.sp
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

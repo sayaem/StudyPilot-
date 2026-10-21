@@ -2,13 +2,14 @@ package com.example.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -47,50 +48,58 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(bottom = 16.dp)
+                .padding(bottom = 12.dp)
         ) {
-            // Top Header: Greeting & Profile
+            // Top Header: Exact alignment matching reference
             item {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 20.dp),
+                        .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 12.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(
+                            text = AppStrings.get("good_morning", lang),
+                            fontSize = 14.sp,
+                            fontFamily = PlusJakartaSansFamily,
+                            fontWeight = FontWeight.Medium,
+                            color = StudyPilotTextDark
+                        )
+                        Spacer(modifier = Modifier.height(2.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Filled.WbSunny,
+                                contentDescription = "Sun",
+                                tint = StudyPilotYellow,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = "${AppStrings.get("good_morning", lang)} ",
+                                text = profile.name,
                                 fontSize = 18.sp,
+                                fontFamily = PlusJakartaSansFamily,
                                 fontWeight = FontWeight.Bold,
                                 color = StudyPilotTextDark
                             )
-                            Icon(
-                                imageVector = Icons.Filled.WbSunny,
-                                contentDescription = "Morning",
-                                tint = StudyPilotYellow,
-                                modifier = Modifier.size(20.dp)
-                            )
                         }
-                        Text(
-                            text = profile.name,
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = StudyPilotTextDark
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier.height(3.dp))
                         Text(
                             text = AppStrings.get("home_subtitle", lang),
-                            fontSize = 12.sp,
-                            color = StudyPilotTextMuted
+                            fontSize = 11.sp,
+                            fontFamily = PlusJakartaSansFamily,
+                            color = StudyPilotTextMuted,
+                            maxLines = 1
                         )
                     }
 
-                    // Notification Bell and Avatar
+                    // Notification Bell & High-Resolution Avatar
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         IconButton(
                             onClick = { onNavigate("notifications") },
@@ -102,29 +111,30 @@ fun HomeScreen(
                                 imageVector = Icons.Outlined.Notifications,
                                 contentDescription = "Notifications",
                                 tint = StudyPilotTextDark,
-                                modifier = Modifier.size(24.dp)
+                                modifier = Modifier.size(22.dp)
                             )
                         }
 
                         Box(
                             modifier = Modifier
-                                .size(44.dp)
+                                .size(40.dp)
                                 .clip(CircleShape)
                                 .clickable { onNavigate("profile") }
                                 .testTag("home_avatar_button")
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.avatar_rafi),
-                                contentDescription = "Profile",
+                                contentDescription = "Profile Photo",
                                 modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Crop
                             )
-                            // Online indicator dot
+                            // Online indicator dot at bottom right
                             Box(
                                 modifier = Modifier
-                                    .size(10.dp)
+                                    .size(9.dp)
                                     .clip(CircleShape)
                                     .background(StudyPilotGreen)
+                                    .border(1.5.dp, Color.White, CircleShape)
                                     .align(Alignment.BottomEnd)
                             )
                         }
@@ -146,16 +156,17 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 12.dp)
+                        .padding(horizontal = 20.dp, vertical = 10.dp)
                 ) {
                     Text(
                         text = AppStrings.get("quick_actions", lang),
-                        style = MaterialTheme.typography.titleMedium,
+                        fontSize = 15.sp,
+                        fontFamily = PlusJakartaSansFamily,
                         fontWeight = FontWeight.Bold,
                         color = StudyPilotTextDark
                     )
 
-                    Spacer(modifier = Modifier.height(14.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -201,11 +212,12 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 8.dp)
+                        .padding(horizontal = 20.dp, vertical = 6.dp)
                 ) {
                     Text(
                         text = AppStrings.get("upcoming", lang),
-                        style = MaterialTheme.typography.titleMedium,
+                        fontSize = 15.sp,
+                        fontFamily = PlusJakartaSansFamily,
                         fontWeight = FontWeight.Bold,
                         color = StudyPilotTextDark
                     )
@@ -228,7 +240,7 @@ fun HomeScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Surface(
-                                modifier = Modifier.size(46.dp),
+                                modifier = Modifier.size(44.dp),
                                 shape = RoundedCornerShape(12.dp),
                                 color = StudyPilotRedBg
                             ) {
@@ -237,7 +249,7 @@ fun HomeScreen(
                                         imageVector = Icons.Outlined.Description,
                                         contentDescription = "Exam",
                                         tint = StudyPilotRed,
-                                        modifier = Modifier.size(24.dp)
+                                        modifier = Modifier.size(22.dp)
                                     )
                                 }
                             }
@@ -248,6 +260,7 @@ fun HomeScreen(
                                 Text(
                                     text = "RU Admission Test",
                                     fontSize = 15.sp,
+                                    fontFamily = PlusJakartaSansFamily,
                                     fontWeight = FontWeight.Bold,
                                     color = StudyPilotTextDark
                                 )
@@ -255,6 +268,7 @@ fun HomeScreen(
                                 Text(
                                     text = "Nov 10, 2025",
                                     fontSize = 12.sp,
+                                    fontFamily = PlusJakartaSansFamily,
                                     color = StudyPilotTextMuted
                                 )
                             }
@@ -266,6 +280,7 @@ fun HomeScreen(
                                 Text(
                                     text = "12 ${AppStrings.get("days_left", lang)}",
                                     fontSize = 12.sp,
+                                    fontFamily = PlusJakartaSansFamily,
                                     fontWeight = FontWeight.Bold,
                                     color = StudyPilotRed,
                                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
